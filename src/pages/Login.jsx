@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Login({ setIsAuthenticated }) {
   const [isToast, setIsToast] = useState(false);
+
   const handleFunction = (e) => {
     if (e.target.value === "Sumit123") {
       setIsAuthenticated(true);
@@ -9,6 +10,17 @@ function Login({ setIsAuthenticated }) {
       setIsToast(true);
     }
   };
+
+  useEffect(() => {
+    if (isToast === true) {
+      const timer = setTimeout(() => {
+        setIsToast(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isToast]);
+
   return (
     <>
       {isToast && (
@@ -24,7 +36,7 @@ function Login({ setIsAuthenticated }) {
             ENTER MASTER PASSWORD
           </label>
           <input
-            type="text"
+            type="password"
             id="password"
             placeholder="Password"
             className="input border-red-400 hover:outline-none"
