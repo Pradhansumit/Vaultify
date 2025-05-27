@@ -1,51 +1,55 @@
-function EditModal({ site, username, password }) {
+function EditModal({ id, site, username, password, onClose }) {
   const handleSubmit = () => {
     document.getElementById("my_modal_3").close();
   };
   return (
     <>
-      <dialog id="my_modal_3" className="modal">
+      {console.log(id, site, username, password)}
+      <dialog id="my_modal_3" className="modal" open>
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            <button
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={onClose}
+            >
               ✕
             </button>
           </form>
           <form action="" className="flex flex-col gap-3">
             <div>
-              <label htmlFor="site" className="mr-4">
+              <label htmlFor={`siteField-${id}`} className="mr-4">
                 Website
               </label>
               <input
                 className="input"
                 type="text"
-                name="site"
-                id="site"
-                value={`${site}`}
+                name="siteField"
+                id={`siteField-${id}`}
+                defaultValue={`${site}`}
               />
             </div>
             <div>
-              <label htmlFor="username" className="mr-4">
+              <label htmlFor={`usernameField-${id}`} className="mr-4">
                 Username
               </label>
               <input
                 className="input"
                 type="text"
-                name="username"
-                id="username"
-                value={`${username}`}
+                name="usernameField"
+                id={`usernameField-${id}`}
+                defaultValue={`${username}`}
               />
             </div>
             <div>
-              <label htmlFor="username" className="mr-4">
+              <label htmlFor={`password-${id}`} className="mr-4">
                 Password
               </label>
               <input
                 className="input"
                 type="text"
-                name="password"
-                id="password"
-                value={`${password}`}
+                name="passwordField"
+                id={`password-${id}`}
+                defaultValue={`${password}`}
               />
             </div>
           </form>

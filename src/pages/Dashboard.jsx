@@ -1,3 +1,4 @@
+import { useState } from "react";
 import VaultifyPasswordItem from "../components/VaultifyPasswordItem";
 
 const sampleData = [
@@ -12,10 +13,22 @@ const sampleData = [
 ];
 
 const Dashboard = () => {
+  const [data, setData] = useState(sampleData);
+
+  const handleDelete = (id) => {
+    console.log(id);
+    const filtered = data.filter((item) => item.id !== id);
+    setData(filtered);
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-3">
-      {sampleData.map((item) => (
-        <VaultifyPasswordItem key={item.id} item={item} />
+      {data.map((item) => (
+        <VaultifyPasswordItem
+          key={item.id}
+          item={item}
+          onDelete={handleDelete}
+        />
       ))}
     </div>
   );

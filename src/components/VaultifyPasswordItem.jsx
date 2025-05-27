@@ -4,9 +4,10 @@ import { BsPencil } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa6";
 import EditModal from "./EditModal";
 
-const VaultifyPasswordItem = ({ item }) => {
+const VaultifyPasswordItem = ({ item, onDelete }) => {
   const [isShow, setIsShow] = useState(false);
   const [clipboardToast, setClipboardToast] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const handleReveal = () => {
     setIsShow(!isShow);
@@ -17,7 +18,7 @@ const VaultifyPasswordItem = ({ item }) => {
   };
 
   const handleEdit = () => {
-    document.getElementById("my_modal_3").showModal();
+    setIsEditOpen(true);
   };
 
   useEffect(() => {
@@ -41,11 +42,14 @@ const VaultifyPasswordItem = ({ item }) => {
       )}
 
       {/* Edit Modal */}
-      <EditModal
-        site={item.app}
-        username={item.username}
-        password={item.password}
-      />
+      {isEditOpen && (
+        <EditModal
+          site={item.app}
+          username={item.username}
+          password={item.password}
+          onClose={() => setIsEditOpen(false)}
+        />
+      )}
 
       {/* Card section */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 p-4 bg-white dark:bg-zinc-800 rounded-md shadow-sm">
@@ -92,7 +96,11 @@ const VaultifyPasswordItem = ({ item }) => {
           >
             <BsPencil color="white" />
           </button>
-          <button title="Delete" className="hover:scale-110 cursor-pointer">
+          <button
+            title="Delete"
+            className="hover:scale-110 cursor-pointer"
+            onClick={() => onDelete(item.id)}
+          >
             <FaTrash color="white" />
           </button>
         </div>
