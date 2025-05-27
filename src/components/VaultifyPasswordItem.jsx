@@ -2,16 +2,22 @@ import { useEffect, useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaRegClipboard } from "react-icons/fa";
 import { BsPencil } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa6";
+import EditModal from "./EditModal";
 
 const VaultifyPasswordItem = ({ item }) => {
   const [isShow, setIsShow] = useState(false);
   const [clipboardToast, setClipboardToast] = useState(false);
+
   const handleReveal = () => {
     setIsShow(!isShow);
   };
   const handleClipboard = () => {
     navigator.clipboard.writeText(item.password);
     setClipboardToast(true);
+  };
+
+  const handleEdit = () => {
+    document.getElementById("my_modal_3").showModal();
   };
 
   useEffect(() => {
@@ -25,6 +31,7 @@ const VaultifyPasswordItem = ({ item }) => {
 
   return (
     <>
+      {/* toast area */}
       {clipboardToast && (
         <div className="toast toast-top toast-end">
           <div className="alert alert-success text-white font-semibold">
@@ -32,6 +39,15 @@ const VaultifyPasswordItem = ({ item }) => {
           </div>
         </div>
       )}
+
+      {/* Edit Modal */}
+      <EditModal
+        site={item.app}
+        username={item.username}
+        password={item.password}
+      />
+
+      {/* Card section */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 p-4 bg-white dark:bg-zinc-800 rounded-md shadow-sm">
         <div className="md:col-span-1">
           <span className="font-semibold md:hidden">App: </span>
@@ -69,7 +85,11 @@ const VaultifyPasswordItem = ({ item }) => {
           >
             <FaRegClipboard color="white" />
           </button>
-          <button title="Edit" className=" hover:scale-110 cursor-pointer">
+          <button
+            title="Edit"
+            className=" hover:scale-110 cursor-pointer"
+            onClick={handleEdit}
+          >
             <BsPencil color="white" />
           </button>
           <button title="Delete" className="hover:scale-110 cursor-pointer">
