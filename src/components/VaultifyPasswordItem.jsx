@@ -4,7 +4,7 @@ import { BsPencil } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa6";
 import EditModal from "./EditModal";
 
-const VaultifyPasswordItem = ({ item, onDelete }) => {
+const VaultifyPasswordItem = ({ item, onDelete, onUpdate }) => {
   const [isShow, setIsShow] = useState(false);
   const [clipboardToast, setClipboardToast] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -12,6 +12,7 @@ const VaultifyPasswordItem = ({ item, onDelete }) => {
   const handleReveal = () => {
     setIsShow(!isShow);
   };
+
   const handleClipboard = () => {
     navigator.clipboard.writeText(item.password);
     setClipboardToast(true);
@@ -45,9 +46,11 @@ const VaultifyPasswordItem = ({ item, onDelete }) => {
       {isEditOpen && (
         <EditModal
           site={item.app}
+          id={item.id}
           username={item.username}
           password={item.password}
           onClose={() => setIsEditOpen(false)}
+          onUpdate={onUpdate}
         />
       )}
 

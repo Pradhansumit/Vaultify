@@ -1,67 +1,80 @@
-function EditModal({ id, site, username, password, onClose }) {
-  const handleSubmit = () => {
-    document.getElementById("my_modal_3").close();
+import { useState } from "react";
+
+function EditModal({ id, site, username, password, onClose, onUpdate }) {
+  const [form, setForm] = useState({ id, app: site, username, password });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onUpdate(form);
+    onClose();
+  };
+
   return (
-    <>
-      {console.log(id, site, username, password)}
-      <dialog id="my_modal_3" className="modal" open>
-        <div className="modal-box">
-          <form method="dialog">
-            <button
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-              onClick={onClose}
-            >
-              ✕
-            </button>
-          </form>
-          <form action="" className="flex flex-col gap-3">
-            <div>
-              <label htmlFor={`siteField-${id}`} className="mr-4">
-                Website
-              </label>
-              <input
-                className="input"
-                type="text"
-                name="siteField"
-                id={`siteField-${id}`}
-                defaultValue={`${site}`}
-              />
-            </div>
-            <div>
-              <label htmlFor={`usernameField-${id}`} className="mr-4">
-                Username
-              </label>
-              <input
-                className="input"
-                type="text"
-                name="usernameField"
-                id={`usernameField-${id}`}
-                defaultValue={`${username}`}
-              />
-            </div>
-            <div>
-              <label htmlFor={`password-${id}`} className="mr-4">
-                Password
-              </label>
-              <input
-                className="input"
-                type="text"
-                name="passwordField"
-                id={`password-${id}`}
-                defaultValue={`${password}`}
-              />
-            </div>
-          </form>
-          <button
-            className="my-3 btn bg-success text-gray-950"
-            onClick={handleSubmit}
-          >
+    <dialog className="modal" open>
+      <div className="modal-box">
+        {/* Close button */}
+        <button
+          type="button"
+          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          onClick={onClose}
+        >
+          ✕
+        </button>
+
+        {/* Edit form */}
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor={`site-${id}`} className="mr-4">
+              Website
+            </label>
+            <input
+              id={`site-${id}`}
+              name="app"
+              className="input"
+              type="text"
+              defaultValue={form.app}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor={`username-${id}`} className="mr-4">
+              Username
+            </label>
+            <input
+              id={`username-${id}`}
+              name="username"
+              className="input"
+              type="text"
+              value={form.username}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor={`password-${id}`} className="mr-4">
+              Password
+            </label>
+            <input
+              id={`password-${id}`}
+              name="password"
+              className="input"
+              type="text"
+              value={form.password}
+              onChange={handleChange}
+            />
+          </div>
+
+          <button type="submit" className="my-3 btn bg-success text-gray-950">
             Save
           </button>
-        </div>
-      </dialog>
-    </>
+        </form>
+      </div>
+    </dialog>
   );
 }
 

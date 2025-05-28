@@ -15,6 +15,13 @@ const sampleData = [
 const Dashboard = () => {
   const [data, setData] = useState(sampleData);
 
+  const handleUpdate = (updatedItem) => {
+    const newData = data.map((item) =>
+      item.id === updatedItem.id ? updatedItem : item,
+    );
+    setData(newData);
+  };
+
   const handleDelete = (id) => {
     console.log(id);
     const filtered = data.filter((item) => item.id !== id);
@@ -28,6 +35,7 @@ const Dashboard = () => {
           key={item.id}
           item={item}
           onDelete={handleDelete}
+          onUpdate={handleUpdate}
         />
       ))}
     </div>
