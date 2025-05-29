@@ -15,6 +15,7 @@ const sampleData = [
 
 const Dashboard = () => {
   const [data, setData] = useState(sampleData);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleUpdate = (updatedItem) => {
     const newData = data.map((item) =>
@@ -29,18 +30,28 @@ const Dashboard = () => {
     setData(filtered);
   };
 
+  const filteredData = data.filter(
+    (item) =>
+      item.app.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.username.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
     <>
-      <Header />
+      <Header setSearchQuery={setSearchQuery} />
       <div className="max-w-4xl mx-auto p-4 space-y-3">
-        {data.map((item) => (
-          <VaultifyPasswordItem
-            key={item.id}
-            item={item}
-            onDelete={handleDelete}
-            onUpdate={handleUpdate}
-          />
-        ))}
+        {filteredData.length > 0 ? (
+          filteredData.map((item) => (
+            <VaultifyPasswordItem
+              key={item.id}
+              item={item}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
+          ))
+        ) : (
+          <p className="text-white">No results found.</p>
+        )}
       </div>
     </>
   );

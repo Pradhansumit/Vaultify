@@ -1,7 +1,11 @@
 import { useEffect, useRef } from "react";
 
-const Header = () => {
+const Header = ({ setSearchQuery }) => {
   const inputRef = useRef();
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -39,6 +43,7 @@ const Header = () => {
             type="search"
             className="grow"
             placeholder="Search"
+            onChange={handleSearch}
           />
           <kbd className="kbd kbd-sm">Ctrl</kbd>
           <kbd className="kbd kbd-sm">K</kbd>
