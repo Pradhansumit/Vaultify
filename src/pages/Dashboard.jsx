@@ -1,6 +1,7 @@
 import { useState } from "react";
 import VaultifyPasswordItem from "../components/VaultifyPasswordItem";
 import Header from "../components/Header";
+import AddModal from "../components/AddModal";
 
 const sampleData = [
   {
@@ -16,6 +17,7 @@ const sampleData = [
 const Dashboard = () => {
   const [data, setData] = useState(sampleData);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isAddOpen, setIsAddOpen] = useState(false);
 
   const handleUpdate = (updatedItem) => {
     const newData = data.map((item) =>
@@ -28,6 +30,10 @@ const Dashboard = () => {
     console.log(id);
     const filtered = data.filter((item) => item.id !== id);
     setData(filtered);
+  };
+
+  const handleAdd = (newItem) => {
+    setData([...data, newItem]);
   };
 
   const filteredData = data.filter(
@@ -50,9 +56,22 @@ const Dashboard = () => {
             />
           ))
         ) : (
-          <p className="text-white">No results found.</p>
+          <p className="text-white text-center">No results found.</p>
         )}
       </div>
+      <div className="absolute right-10 bottom-10">
+        <button
+          className="btn bg-slate-800 text-2xl"
+          onClick={() => {
+            setIsAddOpen(!isAddOpen);
+          }}
+        >
+          +
+        </button>
+      </div>
+      {isAddOpen && (
+        <AddModal onClose={() => setIsAddOpen(false)} onAdd={handleAdd} />
+      )}
     </>
   );
 };
