@@ -8,6 +8,7 @@ const VaultifyPasswordItem = ({ item, onDelete, onUpdate }) => {
   const [isShow, setIsShow] = useState(false);
   const [clipboardToast, setClipboardToast] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleReveal = () => {
     setIsShow(!isShow);
@@ -55,7 +56,7 @@ const VaultifyPasswordItem = ({ item, onDelete, onUpdate }) => {
       )}
 
       {/* Card section */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 p-4 bg-white dark:bg-zinc-800 rounded-md shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 p-4 bg-white dark:bg-zinc-800 rounded-md shadow-sm relative">
         <div className="md:col-span-1">
           <span className="font-semibold md:hidden">App: </span>
           {item.app}
@@ -73,39 +74,61 @@ const VaultifyPasswordItem = ({ item, onDelete, onUpdate }) => {
           </span>
         </div>
 
+        {/* Desktop Buttons */}
         <div className="hidden gap-3 md:flex md:justify-end">
-          <button
-            title="Reveal"
-            className="hover:scale-110 cursor-pointer"
-            onClick={handleReveal}
-          >
+          <button title="Reveal" onClick={handleReveal}>
             {isShow ? (
               <FaRegEye color="white" />
             ) : (
               <FaRegEyeSlash color="white" />
             )}
           </button>
-          <button
-            title="Copy"
-            className=" hover:scale-110 cursor-pointer"
-            onClick={handleClipboard}
-          >
+          <button title="Copy" onClick={handleClipboard}>
             <FaRegClipboard color="white" />
           </button>
-          <button
-            title="Edit"
-            className=" hover:scale-110 cursor-pointer"
-            onClick={handleEdit}
-          >
+          <button title="Edit" onClick={handleEdit}>
             <BsPencil color="white" />
           </button>
-          <button
-            title="Delete"
-            className="hover:scale-110 cursor-pointer"
-            onClick={() => onDelete(item.id)}
-          >
+          <button title="Delete" onClick={() => onDelete(item.id)}>
             <FaTrash color="white" />
           </button>
+        </div>
+
+        {/* Mobile 3-dot menu */}
+        <div className="md:hidden">
+          <button
+            className="absolute top-2 right-3  text-white"
+            onClick={() => setMenuOpen(!menuOpen)}
+            title="Actions"
+          >
+            ⋮
+          </button>
+
+          {menuOpen && (
+            <div className="absolute top-5 right-0 mt-2 bg-zinc-800 text-white rounded shadow-lg/30 p-2 z-50 space-y-2">
+              <button
+                className="flex items-center gap-2"
+                onClick={handleReveal}
+              >
+                {isShow ? <FaRegEye /> : <FaRegEyeSlash />} Reveal
+              </button>
+              <button
+                className="flex items-center gap-2"
+                onClick={handleClipboard}
+              >
+                <FaRegClipboard /> Copy
+              </button>
+              <button className="flex items-center gap-2" onClick={handleEdit}>
+                <BsPencil /> Edit
+              </button>
+              <button
+                className="flex items-center gap-2"
+                onClick={() => onDelete(item.id)}
+              >
+                <FaTrash /> Delete
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
